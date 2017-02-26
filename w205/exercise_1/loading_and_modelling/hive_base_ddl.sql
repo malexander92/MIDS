@@ -74,3 +74,29 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 LOCATION '/user/w205/hospital_compare/measures/'
 ;
+
+-- creating readmissions table
+DROP TABLE IF EXISTS readmissions;
+CREATE EXTERNAL TABLE readmissions (
+	provider_id	INT,
+	hospital_name STRING,
+	address STRING,
+	city STRING,
+	state STRING,
+	zip_code INT,
+	county_name STRING,
+	phone_number INT,
+	measure_name STRING,
+	measure_id STRING,
+	compared_to_national  STRING,
+	denominator INT,
+	score DECIMAL,
+	lower_estimate DECIMAL,
+	higher_estimate_footnote STRING,
+	measure_start_date DATE,
+	measure_end_date DATE
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/readmissions/'
+;
