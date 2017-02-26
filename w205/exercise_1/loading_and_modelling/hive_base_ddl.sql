@@ -1,3 +1,4 @@
+-- creating hospitals table
 DROP TABLE IF EXISTS hospitals;
 CREATE EXTERNAL TABLE hospitals (
 	provider_id	INT,
@@ -8,7 +9,7 @@ CREATE EXTERNAL TABLE hospitals (
 	zip_code INT,
 	county_name STRING,
 	phone_number INT,
-	hospital_yype STRING,
+	hospital_type STRING,
 	hospital_ownership STRING,
 	emergency_services STRING,
 	meets_ehr_criteria STRING, --Meets_criteria_for_meaningful_use_of_EHRs
@@ -29,12 +30,47 @@ CREATE EXTERNAL TABLE hospitals (
 	efficient_imaging_comp STRING, --Efficient_use_of_medical_imaging_national_comparison
 	efficient_imaging_comp_note STRING --Efficient_use_of_medical_imaging_national_comparison_footnote
 )
-ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-WITH SERDEPROPERTIES (
-	"separatorChar" = ",",
-	"quoteChar" = '"',
-	"escapeChar" = '\\'
-)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
 LOCATION '/user/w205/hospital_compare/hospitals/'
+;
+
+-- creating effective_care table
+DROP TABLE IF EXISTS effective_care;
+CREATE EXTERNAL TABLE effective_care (
+	provider_id	INT,
+	hospital_name STRING,
+	address STRING,
+	city STRING,
+	state STRING,
+	zip_code INT,
+	county_name STRING,
+	phone_number INT,
+	condition STRING,
+	measure_id STRING,
+	measure_name STRING,
+	score STRING,
+	sample STRING,
+	footnote STRING,
+	measure_start_date DATE,
+	measure_end_date DATE
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/effective_care/'
+;
+
+-- creating measures table
+DROP TABLE IF EXISTS measures;
+CREATE EXTERNAL TABLE measures (
+	measure_name STRING,
+	measure_id STRING,
+	measure_start_quarter STRING,
+	measure_start_date DATE,
+	measure_end_quarter STRING,
+	measure_end_date DATE
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/measures/'
 ;
