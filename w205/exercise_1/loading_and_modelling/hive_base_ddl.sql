@@ -40,9 +40,9 @@ STORED AS TEXTFILE
 LOCATION '/user/w205/hospital_compare/hospitals/'
 ;
 
--- creating effective_care table
-DROP TABLE IF EXISTS effective_care;
-CREATE EXTERNAL TABLE effective_care (
+-- creating effective_care_hospital table
+DROP TABLE IF EXISTS effective_care_hospital;
+CREATE EXTERNAL TABLE effective_care_hospital (
 	provider_id	STRING,
 	hospital_name STRING,
 	address STRING,
@@ -67,17 +67,19 @@ WITH SERDEPROPERTIES (
 	"escapeChar" = '\\'
 )
 STORED AS TEXTFILE
-LOCATION '/user/w205/hospital_compare/effective_care/'
+LOCATION '/user/w205/hospital_compare/effective_care_hospital/'
 ;
 
--- creating measures table
-DROP TABLE IF EXISTS measures;
-CREATE EXTERNAL TABLE measures (
+-- creating effective_care_state table
+DROP TABLE IF EXISTS effective_care_state;
+CREATE EXTERNAL TABLE effective_care_state (
+	state STRING,
+	condition STRING,
 	measure_name STRING,
 	measure_id STRING,
-	measure_start_quarter STRING,
+	score STRING,
+	footnote STRING,
 	measure_start_date STRING,
-	measure_end_quarter STRING,
 	measure_end_date STRING
 )
 ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
@@ -87,12 +89,12 @@ WITH SERDEPROPERTIES (
 	"escapeChar" = '\\'
 )
 STORED AS TEXTFILE
-LOCATION '/user/w205/hospital_compare/measures/'
+LOCATION '/user/w205/hospital_compare/effective_care_state/'
 ;
 
--- creating readmissions table
-DROP TABLE IF EXISTS readmissions;
-CREATE EXTERNAL TABLE readmissions (
+-- creating readmissions_hospital table
+DROP TABLE IF EXISTS readmissions_hospital;
+CREATE EXTERNAL TABLE readmissions_hospital (
 	provider_id	STRING,
 	hospital_name STRING,
 	address STRING,
@@ -118,7 +120,150 @@ WITH SERDEPROPERTIES (
 	"escapeChar" = '\\'
 )
 STORED AS TEXTFILE
-LOCATION '/user/w205/hospital_compare/readmissions/'
+LOCATION '/user/w205/hospital_compare/readmissions_hospital/'
+;
+
+-- creating readmissions_state table
+DROP TABLE IF EXISTS readmissions_state;
+CREATE EXTERNAL TABLE readmissions_state (
+	state STRING,
+	measure_name STRING,
+	measure_id STRING,
+	number_hospitals_worse STRING,
+	number_hospitals_same STRING,
+	number_hospitals_better STRING,
+	number_hospitals_too_few STRING,
+	footnote STRING,
+	measure_start_date STRING,
+	measure_end_date STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+	"separatorChar" = ",",
+	"quoteChar" = '"',
+	"escapeChar" = '\\'
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/readmissions_state/'
+;
+
+-- creating spending_hospital table
+DROP TABLE IF EXISTS spending_hospital;
+CREATE EXTERNAL TABLE spending_hospital (
+	provider_id	STRING,
+	hospital_name STRING,
+	address STRING,
+	city STRING,
+	state STRING,
+	zip_code STRING,
+	county_name STRING,
+	phone_number STRING,
+	measure_name STRING,
+	measure_id STRING,
+	score STRING,
+	footnote STRING,
+	measure_start_date STRING,
+	measure_end_date STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+	"separatorChar" = ",",
+	"quoteChar" = '"',
+	"escapeChar" = '\\'
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/spending_hospital/'
+;
+
+-- creating spending_state table
+DROP TABLE IF EXISTS spending_state;
+CREATE EXTERNAL TABLE spending_state (
+	state STRING,
+	measure_name STRING,
+	measure_id STRING,
+	score STRING,
+	footnote STRING,
+	measure_start_date STRING,
+	measure_end_date STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+	"separatorChar" = ",",
+	"quoteChar" = '"',
+	"escapeChar" = '\\'
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/spending_state/'
+;
+
+-- creating hai_hospital table
+DROP TABLE IF EXISTS hai_hospital;
+CREATE EXTERNAL TABLE hai_hospital (
+	provider_id	STRING,
+	hospital_name STRING,
+	address STRING,
+	city STRING,
+	state STRING,
+	zip_code STRING,
+	county_name STRING,
+	phone_number STRING,
+	measure_name STRING,
+	measure_id STRING,
+	compared_to_national STRING,
+	score STRING,
+	footnote STRING,
+	measure_start_date STRING,
+	measure_end_date STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+	"separatorChar" = ",",
+	"quoteChar" = '"',
+	"escapeChar" = '\\'
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/hai_hospital/'
+;
+
+-- creating hai_state table
+DROP TABLE IF EXISTS hai_state;
+CREATE EXTERNAL TABLE hai_state (
+	state STRING,
+	measure_name STRING,
+	measure_id STRING,
+	score STRING,
+	footnote STRING,
+	measure_start_date STRING,
+	measure_end_date STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+	"separatorChar" = ",",
+	"quoteChar" = '"',
+	"escapeChar" = '\\'
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/hai_state/'
+;
+
+-- creating measures table
+DROP TABLE IF EXISTS measures;
+CREATE EXTERNAL TABLE measures (
+	measure_name STRING,
+	measure_id STRING,
+	measure_start_quarter STRING,
+	measure_start_date STRING,
+	measure_end_quarter STRING,
+	measure_end_date STRING
+)
+ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
+WITH SERDEPROPERTIES (
+	"separatorChar" = ",",
+	"quoteChar" = '"',
+	"escapeChar" = '\\'
+)
+STORED AS TEXTFILE
+LOCATION '/user/w205/hospital_compare/measures/'
 ;
 
 -- creating survey_responses table
