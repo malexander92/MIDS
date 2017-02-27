@@ -13,6 +13,39 @@ GROUP BY
 		WHEN measure_id LIKE 'MORT%' THEN 'mortality_average' END
 ;
 
+DROP TABLE IF EXISTS hai_hospitals_scores_agg;
+CREATE TABLE hai_hospitals_scores_agg AS
+	a.provider_id,
+	COUNT(DISTINCT b.measure_id) AS worse_hai_measure_count,
+	COUNT(DISTINCT c.measure_id) AS better_hai_measure_count,
+FROM hai_hospitals_scores a
+LEFT OUTER JOIN (
+	SELECT
+		provider_id,
+		measure_id,
+		compared_to_national
+	FROM hai_hospitals_scores
+	WHERE measure_id LIKE '%SIR'
+	AND compared_to_national LIKE 'Worse%'
+) b
+ON a.provider_id = b.provider_id
+AND a.measure_id = b.measure_id
+AND a.measure_id LIKE '%SIR'
+LEFT OUTER JOIN (
+	SELECT
+		provider_id,
+		measure_id,
+		compared_to_national
+	FROM hai_hospitals_scores
+	WHERE measure_id LIKE '%SIR'
+	AND compared_to_national LIKE 'Better%'
+) c
+ON a.provider_id = c.provider_id
+AND a.measure_id = c.measure_id
+AND a.measure_id LIKE '%SIR'
+GROUP BY a.provider_id
+;
+
 DROP TABLE IF EXISTS best_hospitals;
 CREATE TABLE best_hospitals AS
 SELECT
@@ -26,7 +59,9 @@ SELECT
 	a.timeliness_care_comp,
 	a.efficient_imaging_comp,
 	c.average_score AS readmission_average,
-	d.average_score AS mortality_average
+	d.average_score AS mortality_average,
+	e.worse_hai_measure_count,
+	e.better_hai_measure_count
 FROM hospital_general_ratings a
 LEFT OUTER JOIN hospital_general_info b
 	ON a.provider_id = b.provider_id
@@ -36,6 +71,8 @@ LEFT OUTER JOIN readmissions_hospitals_scores_average c
 LEFT OUTER JOIN readmissions_hospitals_scores_average d
 	ON a.provider_id = d.provider_id
 	AND d.measure_group = 'mortality_average'
+LEFT OUTER JOIN hai_hospitals_scores_agg e
+	ON a.provider_id = e.provider_id
 ;
 
 
