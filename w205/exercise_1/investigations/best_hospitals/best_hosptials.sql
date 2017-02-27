@@ -103,7 +103,7 @@ LEFT OUTER JOIN hospitals_general_agg f
 ;
 
 DROP TABLE IF EXISTS top_hospitals;
-CREATE top_hospitals AS
+CREATE TABLE top_hospitals AS
 SELECT
 	*
 FROM best_hospitals
