@@ -9,3 +9,14 @@ SELECT
 		AS score
 FROM readmissions_hospital
 ;
+
+DROP TABLE IF EXISTS readmissions_hospitals_scores_average;
+CREATE TABLE readmissions_hospitals_scores_average AS
+SELECT
+	provider_id,
+	CASE WHEN measure_id ILIKE 'READM%' THEN 'readmission_average'
+		WHEN measure_id ILIKE 'MORT%' THEN 'mortality_average' END
+		AS measure_group,
+	SUM(score)/COUNT(*)	
+FROM readmissions_hospital
+;
