@@ -52,6 +52,7 @@ SELECT
 FROM survey_responses
 ;
 
+DROP TABLE IF EXISTS survey_response_data;
 CREATE TABLE survey_response_data AS
 SELECT 
 	total_performance_score = hcahps_base_score + hcahps_consistency_score,
