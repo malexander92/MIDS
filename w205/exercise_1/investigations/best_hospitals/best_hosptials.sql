@@ -47,6 +47,28 @@ AND a.measure_id LIKE '%SIR'
 GROUP BY a.provider_id
 ;
 
+DROP TABLE IF EXISTS hospitals_general_agg;
+CREATE TABLE hospitals_general_agg AS
+SELECT
+	provider_id,
+	CASE WHEN mortality_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+		CASE WHEN safety_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+		CASE WHEN readmission_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+		CASE WHEN pat_exp_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+		CASE WHEN effective_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+		CASE WHEN timeliness_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+		CASE WHEN efficient_imaging_comp LIKE 'Above%' THEN 1 ELSE 0 END
+		AS better_general_comparison_count,
+	CASE WHEN mortality_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+		CASE WHEN safety_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+		CASE WHEN readmission_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+		CASE WHEN pat_exp_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+		CASE WHEN effective_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+		CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+		CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
+		AS worse_general_comparison_count
+;
+
 DROP TABLE IF EXISTS best_hospitals;
 CREATE TABLE best_hospitals AS
 SELECT
@@ -62,7 +84,9 @@ SELECT
 	c.average_score AS readmission_average,
 	d.average_score AS mortality_average,
 	e.worse_hai_measure_count,
-	e.better_hai_measure_count
+	e.better_hai_measure_count,
+	f.better_general_comparison_count,
+	f.worse_general_comparison_count
 FROM hospital_general_ratings a
 LEFT OUTER JOIN hospital_general_info b
 	ON a.provider_id = b.provider_id
@@ -74,6 +98,8 @@ LEFT OUTER JOIN readmissions_hospitals_scores_average d
 	AND d.measure_group = 'mortality_average'
 LEFT OUTER JOIN hai_hospitals_scores_agg e
 	ON a.provider_id = e.provider_id
+LEFT OUTER JOIN hospitals_general_agg f
+	ON a.provider_id = f.provider_id
 ;
 
 DROP TABLE IF EXISTS top_hospitals;
@@ -81,13 +107,8 @@ CREATE top_hospitals AS
 SELECT
 	*
 FROM best_hospitals
-WHERE mortality_comp LIKE 'Above%'
-AND safety_care_comp LIKE 'Above%'
-AND readmission_comp LIKE 'Above%'
-AND pat_exp_comp LIKE 'Above%'
-AND effective_care_comp LIKE 'Above%'
-AND timeliness_care_comp LIKE 'Above%'
-AND efficient_imaging_comp LIKE 'Above%'
+WHERE better_general_comparison_count > 1
+AND worse_general_comparison_count < 2
 AND worse_hai_measure_count = 0
 AND better_hai_measure_count > 0
 AND readmission_average IS NOT NULL
