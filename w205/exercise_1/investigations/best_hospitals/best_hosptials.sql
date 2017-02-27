@@ -15,6 +15,7 @@ GROUP BY
 
 DROP TABLE IF EXISTS hai_hospitals_scores_agg;
 CREATE TABLE hai_hospitals_scores_agg AS
+SELECT
 	a.provider_id,
 	COUNT(DISTINCT b.measure_id) AS worse_hai_measure_count,
 	COUNT(DISTINCT c.measure_id) AS better_hai_measure_count
