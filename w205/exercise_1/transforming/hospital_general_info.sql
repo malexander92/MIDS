@@ -12,6 +12,6 @@ SELECT
 	CAST(phone_number AS INT),
 	hospital_type,
 	hospital_ownership,
-	emergency_services,
+	emergency_services
 FROM hospitals
 ;
