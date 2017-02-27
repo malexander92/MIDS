@@ -142,112 +142,6 @@ LEFT OUTER JOIN hai_hospitals_scores_agg e
 LEFT OUTER JOIN hospitals_general_agg f
 	ON a.provider_id = f.provider_id
 ;
-/*
-DROP TABLE IF EXISTS top_hospitals;
-CREATE TABLE top_hospitals AS
-SELECT
-	a.provider_id,
-	a.hospital_name,
-	a.readmission_agg_score,
-	(SELECT pop_mean_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') AS readmission_agg_pop_mean,
-	(SELECT pop_max_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') AS readmission_agg_pop_max,
-	(SELECT pop_min_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') AS readmission_agg_pop_min,
-	(SELECT pop_std_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') AS readmission_agg_pop_std,
-	a.mortality_agg_score,
-	(SELECT pop_mean_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') AS mortality_agg_pop_mean,
-	(SELECT pop_max_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') AS mortality_agg_pop_max,
-	(SELECT pop_min_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') AS mortality_agg_pop_min,
-	(SELECT pop_std_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') AS mortality_agg_pop_std,
-	a.better_hai_measure_count,
-	(SELECT better_hai_pop_mean FROM hai_hospitals_scores_agg_pop_stats) AS better_hai_pop_mean,
-	(SELECT better_hai_pop_max FROM hai_hospitals_scores_agg_pop_stats) AS better_hai_pop_max,
-	(SELECT better_hai_pop_min FROM hai_hospitals_scores_agg_pop_stats) AS better_hai_pop_min,
-	a.worse_hai_measure_count,
-	(SELECT worse_hai_pop_mean FROM hai_hospitals_scores_agg_pop_stats) AS worse_hai_pop_mean,
-	(SELECT worse_hai_pop_max FROM hai_hospitals_scores_agg_pop_stats) AS worse_hai_pop_max,
-	(SELECT worse_hai_pop_min FROM hai_hospitals_scores_agg_pop_stats) AS worse_hai_pop_min,
-	a.better_general_comparison_count,
-	(SELECT better_general_pop_mean FROM hospitals_general_agg_pop_stats) AS better_general_pop_mean,
-	(SELECT better_general_pop_max FROM hospitals_general_agg_pop_stats) AS better_general_pop_max,
-	(SELECT better_general_pop_min FROM hospitals_general_agg_pop_stats) AS better_general_pop_min,
-	a.worse_general_comparison_count,
-	(SELECT worse_general_pop_mean FROM hospitals_general_agg_pop_stats) AS worse_general_pop_mean,
-	(SELECT worse_general_pop_max FROM hospitals_general_agg_pop_stats) AS worse_general_pop_max,
-	(SELECT worse_general_pop_min FROM hospitals_general_agg_pop_stats) AS worse_general_pop_min
-FROM best_hospitals a
-WHERE a.better_general_comparison_count > 1
-	AND a.worse_general_comparison_count = 0
-	AND a.worse_hai_measure_count = 0
-	AND a.better_hai_measure_count > 0
-	AND a.readmission_agg_score <= 12
-	AND a.mortality_agg_score <= 12
-	AND a.mortality_comp NOT LIKE 'Not Available'
-	AND a.safety_care_comp NOT LIKE 'Not Available'
-	AND a.readmission_comp NOT LIKE 'Not Available'
-	AND a.pat_exp_comp NOT LIKE 'Not Available'
-	AND a.effective_care_comp NOT LIKE 'Not Available'
-	AND a.timeliness_care_comp NOT LIKE 'Not Available'
-	AND a.efficient_imaging_comp NOT LIKE 'Not Available'
-;
-*/
-/*
-DROP TABLE IF EXISTS top_hospitals;
-CREATE TABLE top_hospitals AS
-SELECT
-	a.provider_id,
-	a.hospital_name,
-	a.readmission_agg_score,
-	a.mortality_agg_score,
-	a.better_hai_measure_count,
-	a.worse_hai_measure_count,
-	a.better_general_comparison_count,
-	a.worse_general_comparison_count
-FROM best_hospitals a
-WHERE a.better_general_comparison_count > 1
-	AND a.worse_general_comparison_count = 0
-	AND a.worse_hai_measure_count = 0
-	AND a.better_hai_measure_count > 0
-	AND a.readmission_agg_score <= 12
-	AND a.mortality_agg_score <= 12
-	AND a.mortality_comp NOT LIKE 'Not Available'
-	AND a.safety_care_comp NOT LIKE 'Not Available'
-	AND a.readmission_comp NOT LIKE 'Not Available'
-	AND a.pat_exp_comp NOT LIKE 'Not Available'
-	AND a.effective_care_comp NOT LIKE 'Not Available'
-	AND a.timeliness_care_comp NOT LIKE 'Not Available'
-	AND a.efficient_imaging_comp NOT LIKE 'Not Available'
-;
-
-
-ALTER TABLE top_hospitals ADD COLUMNS (readmission_agg_pop_mean DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (readmission_agg_pop_max DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (readmission_agg_pop_min DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (readmission_agg_pop_std DECIMAL);
-
-UPDATE top_hospitals
-SET readmission_agg_pop_mean = (SELECT pop_mean_score FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average');
-
-ALTER TABLE top_hospitals ADD COLUMNS (mortality_agg_pop_mean DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (mortality_agg_pop_max DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (mortality_agg_pop_min DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (mortality_agg_pop_std DECIMAL);
-
-ALTER TABLE top_hospitals ADD COLUMNS (better_hai_pop_mean DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (better_hai_pop_max DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (better_hai_pop_min DECIMAL);
-
-ALTER TABLE top_hospitals ADD COLUMNS (worse_hai_pop_mean DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (worse_hai_pop_max DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (worse_hai_pop_min DECIMAL);
-
-ALTER TABLE top_hospitals ADD COLUMNS (better_general_pop_mean DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (better_general_pop_max DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (better_general_pop_min DECIMAL);
-
-ALTER TABLE top_hospitals ADD COLUMNS (worse_general_pop_mean DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (worse_general_pop_max DECIMAL);
-ALTER TABLE top_hospitals ADD COLUMNS (worse_general_pop_min DECIMAL);
-*/
 
 DROP TABLE IF EXISTS top_hospitals;
 CREATE TABLE top_hospitals AS
@@ -280,26 +174,26 @@ SELECT
  	e.worse_general_pop_mean,
  	e.worse_general_pop_max,
  	e.worse_general_pop_min
- FROM best_hospitals a
- JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') b
- 	ON 1 = 1
- JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') c
- 	ON 1 = 1
- JOIN hai_hospitals_scores_agg_pop_stats d
- 	ON 1 = 1
- JOIN hospitals_general_agg_pop_stats e
- 	ON 1 = 1
- WHERE a.better_general_comparison_count >= 1
- 	AND a.worse_general_comparison_count <= 2
- 	AND a.worse_hai_measure_count <= 2
- 	AND a.better_hai_measure_count >= 1
- 	AND a.readmission_agg_score <= 15
- 	AND a.mortality_agg_score <= 15
- 	AND a.mortality_comp NOT LIKE 'Not Available'
- 	AND a.safety_care_comp NOT LIKE 'Not Available'
- 	AND a.readmission_comp NOT LIKE 'Not Available'
- 	AND a.pat_exp_comp NOT LIKE 'Not Available'
- 	AND a.effective_care_comp NOT LIKE 'Not Available'
- 	AND a.timeliness_care_comp NOT LIKE 'Not Available'
- 	AND a.efficient_imaging_comp NOT LIKE 'Not Available'
- ;
+FROM best_hospitals a
+JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') b
+	ON 1 = 1
+JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') c
+	ON 1 = 1
+JOIN hai_hospitals_scores_agg_pop_stats d
+	ON 1 = 1
+JOIN hospitals_general_agg_pop_stats e
+	ON 1 = 1
+;
+
+DROP TABLE IF EXISTS top_10_hospitals;
+CREATE TABLE top_10_hospitals AS
+SELECT
+	*
+FROM top_hospitals
+WHERE readmission_agg_score > readmission_agg_pop_mean
+AND mortality_agg_score > mortality_agg_pop_mean
+AND better_hai_measure_count > better_hai_pop_mean
+AND better_general_comparison_count > better_general_pop_mean
+AND worse_hai_measure_count < worse_hai_pop_mean
+AND worse_general_comparison_count < worse_general_pop_mean
+;

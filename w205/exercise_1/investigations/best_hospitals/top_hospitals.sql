@@ -29,26 +29,26 @@ SELECT
  	e.worse_general_pop_mean,
  	e.worse_general_pop_max,
  	e.worse_general_pop_min
- FROM best_hospitals a
- JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') b
- 	ON 1 = 1
- JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') c
- 	ON 1 = 1
- JOIN hai_hospitals_scores_agg_pop_stats d
- 	ON 1 = 1
- JOIN hospitals_general_agg_pop_stats e
- 	ON 1 = 1
- WHERE a.better_general_comparison_count >= 1
- 	AND a.worse_general_comparison_count <= 2
- 	AND a.worse_hai_measure_count <= 2
- 	AND a.better_hai_measure_count >= 1
- 	AND a.readmission_agg_score <= 15
- 	AND a.mortality_agg_score <= 15
- 	AND a.mortality_comp NOT LIKE 'Not Available'
- 	AND a.safety_care_comp NOT LIKE 'Not Available'
- 	AND a.readmission_comp NOT LIKE 'Not Available'
- 	AND a.pat_exp_comp NOT LIKE 'Not Available'
- 	AND a.effective_care_comp NOT LIKE 'Not Available'
- 	AND a.timeliness_care_comp NOT LIKE 'Not Available'
- 	AND a.efficient_imaging_comp NOT LIKE 'Not Available'
- ;
+FROM best_hospitals a
+JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') b
+	ON 1 = 1
+JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'mortality_average') c
+	ON 1 = 1
+JOIN hai_hospitals_scores_agg_pop_stats d
+	ON 1 = 1
+JOIN hospitals_general_agg_pop_stats e
+	ON 1 = 1
+;
+
+DROP TABLE IF EXISTS top_10_hospitals;
+CREATE TABLE top_10_hospitals AS
+SELECT
+	*
+FROM top_hospitals
+WHERE readmission_agg_score > readmission_agg_pop_mean
+AND mortality_agg_score > mortality_agg_pop_mean
+AND better_hai_measure_count > better_hai_pop_mean
+AND better_general_comparison_count > better_general_pop_mean
+AND worse_hai_measure_count < worse_hai_pop_mean
+AND worse_general_comparison_count < worse_general_pop_mean
+;
