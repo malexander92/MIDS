@@ -1,6 +1,6 @@
 -- creating tansformed survey response table
-DROP TABLE IF EXISTS survey_response_data;
-CREATE TABLE survey_response_data AS
+DROP TABLE IF EXISTS survey_response_data_temp;
+CREATE TEMP TABLE survey_response_data_temp AS
 SELECT
 	CAST(provider_number AS INT) AS provider_id,
 	CAST((CASE WHEN communication_with_nurses_performance_rate = 'Not Available'
@@ -52,30 +52,8 @@ SELECT
 FROM survey_responses
 ;
 
-ALTER TABLE survey_response_data
-ADD COLUMNS (
-	total_performance_score INT,
-	communication_with_nurses_benchmark_met INT,
-	communication_with_nurses_threshold_met INT,
-	communication_with_doctors_benchmark_met INT,
-	communication_with_doctors_threshold_met INT,
-	responsiveness_of_hospital_staff_benchmark_met INT,
-	responsiveness_of_hospital_staff_threshold_met INT,
-	pain_management_benchmark_met INT,
-	pain_management_threshold_met INT,
-	communication_about_medicines_benchmark_met INT,
-	communication_about_medicines_threshold_met INT,
-	cleanliness_and_quietness_of_hospital_environment_benchmark_met INT,
-	cleanliness_and_quietness_of_hospital_environment_threshold_met INT,
-	discharge_information_benchmark_met INT,
-	discharge_information_threshold_met INT,
-	overall_rating_of_hospital_benchmark_met INT,
-	overall_rating_of_hospital_threshold_met INT
-)
-;
-
-UPDATE survey_response_data
-SET
+CREATE TABLE survey_response_data AS
+SELECT 
 	total_performance_score = hcahps_base_score + hcahps_consistency_score,
 	communication_with_nurses_benchmark_met = CASE WHEN communication_with_nurses_performance_rate >= communication_with_nurses_benchmark THEN 1 ELSE 0 END,
 	communication_with_nurses_threshold_met = CASE WHEN communication_with_nurses_performance_rate >= communication_with_nurses_achievement_threshold THEN 1 ELSE 0 END,
@@ -92,5 +70,10 @@ SET
 	discharge_information_benchmark_met = CASE WHEN discharge_information_performance_rate >= discharge_information_benchmark THEN 1 ELSE 0 END,
 	discharge_information_threshold_met = CASE WHEN discharge_information_performance_rate >= discharge_information_achievement_threshold THEN 1 ELSE 0 END,
 	overall_rating_of_hospital_benchmark_met = CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_benchmark THEN 1 ELSE 0 END,
-	overall_rating_of_hospital_threshold_met = CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_achievement_threshold THEN 1 ELSE 0 END
+	overall_rating_of_hospital_threshold_met = CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_achievement_threshold THEN 1 ELSE 0 END,
+	*
+FROM survey_response_data_temp
 ;
+
+DROP TABLE IF EXISTS survey_response_data_temp;
+
