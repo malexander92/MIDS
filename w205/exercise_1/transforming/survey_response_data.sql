@@ -1,6 +1,6 @@
 -- creating tansformed survey response table
 DROP TABLE IF EXISTS survey_response_data_temp;
-CREATE TEMP TABLE survey_response_data_temp AS
+CREATE TABLE survey_response_data_temp AS
 SELECT
 	CAST(provider_number AS INT) AS provider_id,
 	CAST((CASE WHEN communication_with_nurses_performance_rate = 'Not Available'
