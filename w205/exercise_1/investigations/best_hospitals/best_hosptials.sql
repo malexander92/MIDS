@@ -67,6 +67,7 @@ SELECT
 		CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
 		CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
 		AS worse_general_comparison_count
+FROM hospital_general_ratings
 ;
 
 DROP TABLE IF EXISTS best_hospitals;
