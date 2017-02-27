@@ -1,7 +1,14 @@
 DROP TABLE IF EXISTS top_hospitals;
 CREATE TABLE top_hospitals AS
 SELECT
-	*
+	provider_id,
+	hospital_name,
+	readmission_average,
+	mortality_average,
+	worse_hai_measure_count,
+	better_hai_measure_count,
+	better_general_comparison_count,
+	worse_general_comparison_count
 FROM best_hospitals
 WHERE better_general_comparison_count > 1
 AND worse_general_comparison_count = 0
