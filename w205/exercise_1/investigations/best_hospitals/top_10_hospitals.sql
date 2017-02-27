@@ -179,8 +179,8 @@ WHERE a.better_general_comparison_count > 1
 	AND a.worse_general_comparison_count = 0
 	AND a.worse_hai_measure_count = 0
 	AND a.better_hai_measure_count > 0
-	AND a.readmission_average <= 12
-	AND a.mortality_average <= 12
+	AND a.readmission_agg_score <= 12
+	AND a.mortality_agg_score <= 12
 	AND a.mortality_comp NOT LIKE 'Not Available'
 	AND a.safety_care_comp NOT LIKE 'Not Available'
 	AND a.readmission_comp NOT LIKE 'Not Available'
@@ -207,8 +207,8 @@ WHERE a.better_general_comparison_count > 1
 	AND a.worse_general_comparison_count = 0
 	AND a.worse_hai_measure_count = 0
 	AND a.better_hai_measure_count > 0
-	AND a.readmission_average <= 12
-	AND a.mortality_average <= 12
+	AND a.readmission_agg_score <= 12
+	AND a.mortality_agg_score <= 12
 	AND a.mortality_comp NOT LIKE 'Not Available'
 	AND a.safety_care_comp NOT LIKE 'Not Available'
 	AND a.readmission_comp NOT LIKE 'Not Available'
