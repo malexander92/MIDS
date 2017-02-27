@@ -112,7 +112,6 @@ WHERE better_general_comparison_count > 1
 AND worse_general_comparison_count < 2
 AND worse_hai_measure_count = 0
 AND better_hai_measure_count > 0
-AND readmission_average IS NOT NULL
-AND mortality_average IS NOT NULL
-ORDER BY readmission_average, mortality_average ASC
+AND readmission_average <= 10
+AND mortality_average <= 10
 ;
