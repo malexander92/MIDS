@@ -2,20 +2,22 @@
 DROP TABLE IF EXISTS hospital_general_ratings;
 CREATE TABLE hospital_general_ratings AS
 SELECT
-	CAST(provider_id AS INT) AS provider_id,
-	CAST(state AS VARCHAR) AS state,
-	CAST(CASE WHEN meets_ehr_criteria = 'Y'
-		THEN 1 ELSE 0 END AS INT)
+	provider_id,
+	state,
+	CASE WHEN meets_ehr_criteria = 'Y'
+		THEN 1 
+		WHEN meets_ehr_criteria IS NULL THEN 0
+		ELSE 0 END
 		AS meets_ehr_criteria,
-	CAST(CASE WHEN hospital_rating = 'Not Available'
-		THEN NULL ELSE hospital_rating END AS INT)
+	CASE WHEN hospital_rating = 'Not Available'
+		THEN NULL ELSE hospital_rating END
 		AS hospital_rating,
-	CAST(mortality_comp AS VARCHAR),
-	CAST(safety_care_comp AS VARCHAR),
-	CAST(readmission_comp AS VARCHAR),
-	CAST(pat_exp_comp AS VARCHAR),
-	CAST(effective_care_comp AS VARCHAR),
-	CAST(timeliness_care_comp AS VARCHAR),
-	CAST(efficient_imaging_comp AS VARCHAR)
+	mortality_comp,
+	safety_care_comp,
+	readmission_comp,
+	pat_exp_comp,
+	effective_care_comp,
+	timeliness_care_comp,
+	efficient_imaging_comp
 FROM hospitals
 ;
