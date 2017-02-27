@@ -76,5 +76,21 @@ LEFT OUTER JOIN hai_hospitals_scores_agg e
 	ON a.provider_id = e.provider_id
 ;
 
-
-
+DROP TABLE IF EXISTS top_hospitals;
+CREATE top_hospitals AS
+SELECT
+	*
+FROM best_hospitals
+WHERE mortality_comp LIKE 'Above%'
+AND safety_care_comp LIKE 'Above%'
+AND readmission_comp LIKE 'Above%'
+AND pat_exp_comp LIKE 'Above%'
+AND effective_care_comp LIKE 'Above%'
+AND timeliness_care_comp LIKE 'Above%'
+AND efficient_imaging_comp LIKE 'Above%'
+AND worse_hai_measure_count = 0
+AND better_hai_measure_count > 0
+AND readmission_average IS NOT NULL
+AND mortality_average IS NOT NULL
+ORDER BY readmission_average, mortality_average ASC
+;
