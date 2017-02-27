@@ -55,23 +55,55 @@ FROM survey_responses
 DROP TABLE IF EXISTS survey_response_data;
 CREATE TABLE survey_response_data AS
 SELECT 
-	total_performance_score = hcahps_base_score + hcahps_consistency_score,
-	communication_with_nurses_benchmark_met = CASE WHEN communication_with_nurses_performance_rate >= communication_with_nurses_benchmark THEN 1 ELSE 0 END,
-	communication_with_nurses_threshold_met = CASE WHEN communication_with_nurses_performance_rate >= communication_with_nurses_achievement_threshold THEN 1 ELSE 0 END,
-	communication_with_doctors_benchmark_met = CASE WHEN communication_with_doctors_performance_rate >= communication_with_doctors_benchmark THEN 1 ELSE 0 END,
-	communication_with_doctors_threshold_met = CASE WHEN communication_with_doctors_performance_rate >= communication_with_doctors_achievement_threshold THEN 1 ELSE 0 END,
-	responsiveness_of_hospital_staff_benchmark_met = CASE WHEN responsiveness_of_hospital_staff_performance_rate >= responsiveness_of_hospital_staff_benchmark THEN 1 ELSE 0 END,
-	responsiveness_of_hospital_staff_threshold_met = CASE WHEN responsiveness_of_hospital_staff_performance_rate >= responsiveness_of_hospital_staff_achievement_threshold THEN 1 ELSE 0 END,
-	pain_management_benchmark_met = CASE WHEN pain_management_performance_rate >= pain_management_benchmark THEN 1 ELSE 0 END,
-	pain_management_threshold_met = CASE WHEN pain_management_performance_rate >= pain_management_achievement_threshold THEN 1 ELSE 0 END,
-	communication_about_medicines_benchmark_met = CASE WHEN communication_about_medicines_performance_rate >= communication_about_medicines_benchmark THEN 1 ELSE 0 END,
-	communication_about_medicines_threshold_met = CASE WHEN communication_about_medicines_performance_rate >= communication_about_medicines_achievement_threshold THEN 1 ELSE 0 END,
-	cleanliness_and_quietness_of_hospital_environment_benchmark_met = CASE WHEN cleanliness_and_quietness_of_hospital_environment_performance_rate >= cleanliness_and_quietness_of_hospital_environment_benchmark THEN 1 ELSE 0 END,
-	cleanliness_and_quietness_of_hospital_environment_threshold_met = CASE WHEN cleanliness_and_quietness_of_hospital_environment_performance_rate >= cleanliness_and_quietness_of_hospital_environment_achievement_threshold THEN 1 ELSE 0 END,
-	discharge_information_benchmark_met = CASE WHEN discharge_information_performance_rate >= discharge_information_benchmark THEN 1 ELSE 0 END,
-	discharge_information_threshold_met = CASE WHEN discharge_information_performance_rate >= discharge_information_achievement_threshold THEN 1 ELSE 0 END,
-	overall_rating_of_hospital_benchmark_met = CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_benchmark THEN 1 ELSE 0 END,
-	overall_rating_of_hospital_threshold_met = CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_achievement_threshold THEN 1 ELSE 0 END,
+	(hcahps_base_score + hcahps_consistency_score) AS total_performance_score,
+	CASE WHEN communication_with_nurses_performance_rate >= communication_with_nurses_benchmark
+		THEN 1 ELSE 0 END
+		AS communication_with_nurses_benchmark_met,
+	CASE WHEN communication_with_nurses_performance_rate >= communication_with_nurses_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS communication_with_nurses_threshold_met,
+	CASE WHEN communication_with_doctors_performance_rate >= communication_with_doctors_benchmark
+		THEN 1 ELSE 0 END
+		AS communication_with_doctors_benchmark_met,
+	CASE WHEN communication_with_doctors_performance_rate >= communication_with_doctors_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS communication_with_doctors_threshold_met,
+	CASE WHEN responsiveness_of_hospital_staff_performance_rate >= responsiveness_of_hospital_staff_benchmark
+		THEN 1 ELSE 0 END
+		AS responsiveness_of_hospital_staff_benchmark_met,
+	CASE WHEN responsiveness_of_hospital_staff_performance_rate >= responsiveness_of_hospital_staff_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS responsiveness_of_hospital_staff_threshold_met,
+	CASE WHEN pain_management_performance_rate >= pain_management_benchmark
+		THEN 1 ELSE 0 END
+		AS pain_management_benchmark_met,
+	CASE WHEN pain_management_performance_rate >= pain_management_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS pain_management_threshold_met,
+	CASE WHEN communication_about_medicines_performance_rate >= communication_about_medicines_benchmark
+		THEN 1 ELSE 0 END
+		AS communication_about_medicines_benchmark_met,
+	CASE WHEN communication_about_medicines_performance_rate >= communication_about_medicines_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS communication_about_medicines_threshold_met,
+	CASE WHEN cleanliness_and_quietness_of_hospital_environment_performance_rate >= cleanliness_and_quietness_of_hospital_environment_benchmark
+		THEN 1 ELSE 0 END
+		AS cleanliness_and_quietness_of_hospital_environment_benchmark_met,
+	CASE WHEN cleanliness_and_quietness_of_hospital_environment_performance_rate >= cleanliness_and_quietness_of_hospital_environment_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS cleanliness_and_quietness_of_hospital_environment_threshold_met,
+	CASE WHEN discharge_information_performance_rate >= discharge_information_benchmark
+		THEN 1 ELSE 0 END
+		AS discharge_information_benchmark_met,
+	CASE WHEN discharge_information_performance_rate >= discharge_information_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS discharge_information_threshold_met,
+	CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_benchmark
+		THEN 1 ELSE 0 END
+		AS overall_rating_of_hospital_benchmark_met,
+	CASE WHEN overall_rating_of_hospital_performance_rate >= overall_rating_of_hospital_achievement_threshold
+		THEN 1 ELSE 0 END
+		AS overall_rating_of_hospital_threshold_met,
 	*
 FROM survey_response_data_temp
 ;
