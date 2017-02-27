@@ -39,3 +39,4 @@ LEFT OUTER JOIN readmissions_hospitals_scores_average d
 ;
 
 
+
