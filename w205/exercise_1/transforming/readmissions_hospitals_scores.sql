@@ -17,7 +17,7 @@ SELECT
 	CASE WHEN measure_id LIKE 'READM%' THEN 'readmission_average'
 		WHEN measure_id LIKE 'MORT%' THEN 'mortality_average' END
 		AS measure_group,
-	SUM(score)/COUNT(*)	
+	SUM(score)/COUNT(*)	AS average_score
 FROM readmissions_hospitals_scores
 GROUP BY
 	provider_id,
