@@ -1,19 +1,18 @@
-state	general_comparison_ratio	readmission_better_ratio	readmission_worse_ratio	mortality_better_ratio	mortality_worse_ratio
-OH	1.889	0.012	0.016	0.046	0.018
-NH	1.923	0.005	0.005	0.030	0.022
-ME	2.176	0.028	0.000	0.022	0.011
-IN	3.377	0.028	0.013	0.021	0.017
-WI	8.185	0.019	0.000	0.013	0.011
-HI	1.889	0.027	0.000	0.012	0.024
-MN	7.944	0.005	0.000	0.009	0.000
-CO	4.318	0.030	0.002	0.008	0.016
-SD	8.800	0.024	0.000	0.008	0.004
-ID	5.667	0.039	0.000	0.005	0.031
+state	avg_hospital_rating	readmission_better_ratio	readmission_worse_ratio	mortality_better_ratio	mortality_worse_ratio
+DE	3.67	0.02	0.02	0.09	0.00
+NH	3.48	0.01	0.01	0.03	0.02
+ME	3.44	0.03	0.00	0.02	0.01
+OH	3.38	0.01	0.02	0.05	0.02
+RI	3.27	0.00	0.01	0.04	0.00
+TX	3.23	0.01	0.01	0.03	0.02
+MA	3.19	0.01	0.06	0.11	0.00
+MI	3.19	0.02	0.05	0.06	0.02
+IL	3.13	0.02	0.04	0.06	0.02
+PA	3.01	0.01	0.03	0.03	0.02
 
 
 In order to select the best states I combined a number of different measures and found states that scored well on all of them.
 First I combined all of the readmissions and mortality measure scores and calcualted a ratio of better and worse hospitals over total hospitals for each state.
-Then I did a similar aggregation for the general comparison ratings for each hospital to create another ratio.
-Finally, I joined each of the states to their calculated ratios for readmissions, mortality, and general comparisons.
-To identify the "top 10" states based on these ratios I limited to samples with a general comparison ration above the average, and then ordered by the mortality ratio.
-The thinking here is to first limit to states that are above average in the general before doing a final ranking on mortality since it is a particularly important factor.
+Then I took the average hospital overall rating for each state.
+Finally, I joined each of the states to their calculated ratios for readmissions, mortality, and overal rating comparisons.
+To identify the "top 10" states based on these ratios I limited to samples with a mortality ratio above the average, and then ordered by the average overall hospital rating.

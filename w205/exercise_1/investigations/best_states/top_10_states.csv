@@ -1,0 +1,11 @@
+state,avg_hospital_rating,hospital_rating_pop_mean,hospital_rating_pop_max,hospital_rating_pop_min,readmission_better_ratio,readmission_better_ratio_pop_mean,readmission_better_ratio_pop_max,readmission_better_ratio_pop_min,readmission_worse_ratio,readmission_worse_ratio_pop_mean,readmission_worse_ratio_pop_max,readmission_worse_ratio_pop_min,mortality_better_ratio,mortality_better_ratio_pop_mean,mortality_better_ratio_pop_max,mortality_better_ratio_pop_min,mortality_worse_ratio,mortality_worse_ratio_pop_mean,mortality_worse_ratio_pop_max,mortality_worse_ratio_pop_min
+DE,3.67,3.05,3.86,1.43,0.02,0.01,0.04,0.00,0.02,0.02,0.12,0.00,0.09,0.02,0.11,0.00,0.00,0.03,0.20,0.00
+NH,3.48,3.05,3.86,1.43,0.01,0.01,0.04,0.00,0.01,0.02,0.12,0.00,0.03,0.02,0.11,0.00,0.02,0.03,0.20,0.00
+ME,3.44,3.05,3.86,1.43,0.03,0.01,0.04,0.00,0.00,0.02,0.12,0.00,0.02,0.02,0.11,0.00,0.01,0.03,0.20,0.00
+OH,3.38,3.05,3.86,1.43,0.01,0.01,0.04,0.00,0.02,0.02,0.12,0.00,0.05,0.02,0.11,0.00,0.02,0.03,0.20,0.00
+RI,3.27,3.05,3.86,1.43,0.00,0.01,0.04,0.00,0.01,0.02,0.12,0.00,0.04,0.02,0.11,0.00,0.00,0.03,0.20,0.00
+TX,3.23,3.05,3.86,1.43,0.01,0.01,0.04,0.00,0.01,0.02,0.12,0.00,0.03,0.02,0.11,0.00,0.02,0.03,0.20,0.00
+MA,3.19,3.05,3.86,1.43,0.01,0.01,0.04,0.00,0.06,0.02,0.12,0.00,0.11,0.02,0.11,0.00,0.00,0.03,0.20,0.00
+MI,3.19,3.05,3.86,1.43,0.02,0.01,0.04,0.00,0.05,0.02,0.12,0.00,0.06,0.02,0.11,0.00,0.02,0.03,0.20,0.00
+IL,3.13,3.05,3.86,1.43,0.02,0.01,0.04,0.00,0.04,0.02,0.12,0.00,0.06,0.02,0.11,0.00,0.02,0.03,0.20,0.00
+PA,3.01,3.05,3.86,1.43,0.01,0.01,0.04,0.00,0.03,0.02,0.12,0.00,0.03,0.02,0.11,0.00,0.02,0.03,0.20,0.00
