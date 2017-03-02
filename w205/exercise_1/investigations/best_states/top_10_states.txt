@@ -1,0 +1,19 @@
+state	general_comparison_ratio	readmission_better_ratio	readmission_worse_ratio	mortality_better_ratio	mortality_worse_ratio
+ID	5.667	0.039	0.000	0.005	0.031
+UT	3.158	0.032	0.000	0.000	0.014
+CO	4.318	0.030	0.002	0.008	0.016
+ME	2.176	0.028	0.000	0.022	0.011
+IN	3.377	0.028	0.013	0.021	0.017
+HI	1.889	0.027	0.000	0.012	0.024
+SD	8.800	0.024	0.000	0.008	0.004
+WI	8.185	0.019	0.000	0.013	0.011
+MT	2.636	0.017	0.000	0.004	0.022
+OH	1.889	0.012	0.016	0.046	0.018
+
+
+In order to select the best states I combined a number of different measures and found states that scored well on all of them.
+First I combined all of the readmissions and mortality measure scores and calcualted a ratio of better and worse hospitals over total hospitals for each state.
+Then I did a similar aggregation for the general comparison ratings for each hospital to create another ratio.
+Finally, I joined each of the states to their calculated ratios for readmissions, mortality, and general comparisons.
+To identify the "top 10" states based on these ratios I limited to samples with a general comparison ration above the average, and then ordered by the mortality ratio.
+The thinking here is to first limit to states that are above average in the general before doing a final ranking on mortality since it is a particularly important factor.

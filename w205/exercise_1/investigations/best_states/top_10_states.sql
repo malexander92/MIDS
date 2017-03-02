@@ -146,6 +146,6 @@ SELECT
         *
 FROM top_states
 WHERE general_comparison_ratio > general_comparison_ratio_pop_mean
-ORDER BY readmission_better_ratio DESC
+ORDER BY mortality_better_ratio DESC
 LIMIT 10
 ;
