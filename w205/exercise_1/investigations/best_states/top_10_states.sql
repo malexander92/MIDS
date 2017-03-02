@@ -50,13 +50,27 @@ SELECT
 			CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
 			CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
 		) AS worse_general_comparison_count,
-	0 AS general_comparison_ratio
+	SUM(
+		CASE WHEN mortality_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+			CASE WHEN safety_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+			CASE WHEN readmission_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+			CASE WHEN pat_exp_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+			CASE WHEN effective_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+			CASE WHEN timeliness_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
+			CASE WHEN efficient_imaging_comp LIKE 'Above%' THEN 1 ELSE 0 END
+		)/
+		SUM(
+		CASE WHEN mortality_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+			CASE WHEN safety_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+			CASE WHEN readmission_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+			CASE WHEN pat_exp_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+			CASE WHEN effective_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+			CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
+			CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
+		)
+		AS general_comparison_ratio
 FROM hospital_general_ratings
 GROUP BY state
-;
-
-UPDATE state_general_agg
-SET general_comparison_ratio = better_general_comparison_count/worse_general_comparison_count
 ;
 
 DROP TABLE IF EXISTS state_general_agg_pop_stats;
