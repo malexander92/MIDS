@@ -1,3 +1,4 @@
+--Creating average scores for all readmission and mortality measures
 DROP TABLE IF EXISTS readmissions_hospitals_scores_average;
 CREATE TABLE readmissions_hospitals_scores_average AS
 SELECT
@@ -13,6 +14,7 @@ GROUP BY
 		WHEN measure_id LIKE 'MORT%' THEN 'mortality_average' END
 ;
 
+--Calculating population summary statistics about aggregated readmission and mortality scores
 DROP TABLE IF EXISTS readmissions_hospitals_scores_pop_stats;
 CREATE TABLE readmissions_hospitals_scores_pop_stats AS
 SELECT
@@ -25,6 +27,7 @@ FROM readmissions_hospitals_scores_average
 GROUP BY measure_group
 ;
 
+--Creating average scores for all HAI measures
 DROP TABLE IF EXISTS hai_hospitals_scores_agg;
 CREATE TABLE hai_hospitals_scores_agg AS
 SELECT
@@ -59,6 +62,7 @@ AND a.measure_id LIKE '%SIR'
 GROUP BY a.provider_id
 ;
 
+--Calculating population summary statistics about aggregated HAI scores
 DROP TABLE IF EXISTS hai_hospitals_scores_agg_pop_stats;
 CREATE TABLE hai_hospitals_scores_agg_pop_stats AS
 SELECT
@@ -73,6 +77,7 @@ SELECT
 FROM hai_hospitals_scores_agg
 ;
 
+--Aggregating scores for hospital general comparison measures
 DROP TABLE IF EXISTS hospitals_general_agg;
 CREATE TABLE hospitals_general_agg AS
 SELECT
@@ -96,6 +101,7 @@ SELECT
 FROM hospital_general_ratings
 ;
 
+--Calculating population summary statistics about aggregated hospital general comparison measures
 DROP TABLE IF EXISTS hospitals_general_agg_pop_stats;
 CREATE TABLE hospitals_general_agg_pop_stats AS
 SELECT
@@ -110,6 +116,7 @@ SELECT
 FROM hospitals_general_agg
 ;
 
+--Joining all of the calculated aggregated measures together
 DROP TABLE IF EXISTS best_hospitals;
 CREATE TABLE best_hospitals AS
 SELECT
@@ -143,6 +150,7 @@ LEFT OUTER JOIN hospitals_general_agg f
 	ON a.provider_id = f.provider_id
 ;
 
+--Joining to population summary statistics
 DROP TABLE IF EXISTS top_hospitals;
 CREATE TABLE top_hospitals AS
 SELECT
@@ -185,6 +193,7 @@ JOIN hospitals_general_agg_pop_stats e
 	ON 1 = 1
 ;
 
+--Filtering to "top 10" hospitals
 DROP TABLE IF EXISTS top_10_hospitals;
 CREATE TABLE top_10_hospitals AS
 SELECT  
