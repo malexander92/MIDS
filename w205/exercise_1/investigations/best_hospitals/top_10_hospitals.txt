@@ -1,18 +1,19 @@
-hospital_name	readmission_agg_score	mortality_agg_score	better_hai_measure_count	worse_hai_measure_count	better_general_comparison_count	worse_general_comparison_count
-MAYO CLINIC HOSPITAL	13.1	9.3	1	0	4	0
-MAYO CLINIC HOSPITAL ROCHESTER	14.4	9.3	3	0	4	0
-KANSAS MEDICAL CENTER LLC	14.1	9.6	1	0	3	0
-ELMHURST MEMORIAL HOSPITAL	14.9	10.0	1	0	2	0
-MOSAIC LIFE CARE AT ST JOSEPH	13.9	10.0	1	0	5	0
-ADVENTIST LA GRANGE MEMORIAL HOSPITAL	14.1	10.0	1	0	4	0
-RIVERSIDE MEDICAL CENTER	14.8	10.0	1	0	5	0
-MISSOURI BAPTIST MEDICAL CENTER	15.3	10.2	1	0	2	0
-TOLEDO HOSPITAL THE	13.4	10.2	3	0	2	0
-UNITYPOINT HEALTH - MERITER	14.1	10.2	2	0	4	0
+provider_id	hospital_name	readmission_agg_score	mortality_agg_score	better_hai_measure_count	worse_hai_measure_count	better_general_comparison_count	worse_general_comparison_count	hospital_rating
+30103	MAYO CLINIC HOSPITAL	13.125	9.333333333	1	0	4	0	5
+240010	MAYO CLINIC HOSPITAL ROCHESTER	14.375	9.333333333	3	0	4	0	5
+140065	ADVENTIST LA GRANGE MEMORIAL HOSPITAL	14.125	10	1	0	4	0	5
+140186	RIVERSIDE MEDICAL CENTER	14.75	10	1	0	5	0	5
+260006	MOSAIC LIFE CARE AT ST JOSEPH	13.875	10	1	0	5	0	5
+520089	UNITYPOINT HEALTH - MERITER	14.125	10.16666667	2	0	4	0	5
+520083	ST MARYS HOSPITAL	13.875	10.33333333	2	0	4	0	5
+130006	ST LUKE'S REGIONAL MEDICAL CENTER	12.875	10.33333333	1	0	3	0	5
+120022	STRAUB CLINIC AND HOSPITAL	14	10.5	1	0	4	0	5
+170104	SHAWNEE MISSION MEDICAL CENTER	14.625	10.83333333	1	0	4	0	5
+
 
 In order to select the best hospitals I combined a number of different measures and found institutions that scored well on all of them.
 First I combined all of the readmissions and mortality measure scores to get an average for each hospital and other summary statistics.
 Then I did a similar aggregation for healthcare associated infection (HAI) measures and the general comparison ratings for each hospital.
-Finally, I joined each of the hospitals to their calculated aggregate scores for readmissions, mortality, HAI, and general comparisons.
-To identify the "top 10" hospitals based on these scores I limited to samples with above average ratings across every aggregated measure, and then ordered by the mortality score.
+Finally, I joined each of the hospitals to their calculated aggregate scores for readmissions, mortality, HAI, and general comparisons and overall rating.
+To identify the "top 10" hospitals based on these scores I limited to samples with above average ratings across every aggregated measure, and overall rating of 5 and then ordered by the mortality score.
 The thinking here is to select hospitals that are consistently good across multiple ratings, and then doing a final sort on mortality since it is a particularly important factor.
