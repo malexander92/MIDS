@@ -44,9 +44,9 @@ GROUP BY state
 DROP TABLE IF EXISTS state_general_agg_pop_stats;
 CREATE TABLE state_general_agg_pop_stats AS
 SELECT
-	AVG(hospital_rating) AS hospital_rating_pop_mean,
-	MAX(hospital_rating) AS hospital_rating_pop_max,
-	MIN(hospital_rating) AS hospital_rating_pop_min
+	AVG(avg_hospital_rating) AS hospital_rating_pop_mean,
+	MAX(avg_hospital_rating) AS hospital_rating_pop_max,
+	MIN(avg_hospital_rating) AS hospital_rating_pop_min
 FROM state_general_agg
 ;
 
