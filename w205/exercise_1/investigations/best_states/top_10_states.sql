@@ -109,8 +109,7 @@ CREATE TABLE top_10_states AS
 SELECT  
         *
 FROM top_states
-WHERE readmission_better_ratio > readmission_better_ratio_pop_mean
-AND mortality_better_ratio > mortality_better_ratio_pop_mean
+WHERE mortality_better_ratio > mortality_better_ratio_pop_mean
 ORDER BY avg_hospital_rating DESC
 LIMIT 10
 ;
