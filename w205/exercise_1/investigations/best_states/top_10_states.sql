@@ -75,9 +75,9 @@ CREATE TABLE top_states AS
 SELECT
 	a.state,
  	a.avg_hospital_rating,
- 	d.avg_hospital_rating_pop_mean,
- 	d.avg_hospital_rating_pop_max,
- 	d.avg_hospital_rating_pop_min,
+ 	d.hospital_rating_pop_mean,
+ 	d.hospital_rating_pop_max,
+ 	d.hospital_rating_pop_min,
  	a.readmission_better_ratio,
  	b.pop_mean_better_ratio AS readmission_better_ratio_pop_mean,
  	b.pop_max_better_ratio AS readmission_better_ratio_pop_max,
