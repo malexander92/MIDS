@@ -215,6 +215,7 @@ AND better_hai_measure_count > better_hai_pop_mean
 AND better_general_comparison_count > better_general_pop_mean
 AND worse_hai_measure_count < worse_hai_pop_mean
 AND worse_general_comparison_count < worse_general_pop_mean
-ORDER BY hospital_rating DESC
+AND hospital_rating = 5
+ORDER BY mortality_agg_score ASC
 LIMIT 10
 ;
