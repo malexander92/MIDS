@@ -1,4 +1,4 @@
-# running all sql scripts
+# running all table creation and transformation sql scripts
 hive -f effective_care_hospitals_scores.sql
 hive -f effective_care_state_scores.sql
 hive -f hai_hospitals_scores.sql
