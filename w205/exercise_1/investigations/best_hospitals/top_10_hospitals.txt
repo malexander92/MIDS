@@ -11,7 +11,7 @@ hospital_name	readmission_agg_score	mortality_agg_score	better_hai_measure_count
 520089	UNITYPOINT HEALTH - MERITER	14.1	10.2	2	0	4	0
 
 In order to select the best hospitals I combined a number of different measures and found institutions that scored well on all of them.
-First I combined all of the readmissions and mortality measure scores to get an average for each hospital.
+First I combined all of the readmissions and mortality measure scores to get an average for each hospital and other summary statistics.
 Then I did a similar aggregation for healthcare associated infection (HAI) measures and the general comparison ratings for each hospital.
 Finally, I joined each of the hospitals to their calcualted aggregate scores for readmissions, mortality, HAI, and general comparisons.
 To identify the "top 10" hospitals based on these scores I limited to samples with above average ratings across every aggregated measure, and then ordered by the mortality score.
