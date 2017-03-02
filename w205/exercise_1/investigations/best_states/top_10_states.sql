@@ -1,3 +1,4 @@
+--Creating ratios of hosptials better/worse readmission and mortality measures for each state
 DROP TABLE IF EXISTS readmissions_states_scores_average;
 CREATE TABLE readmissions_states_scores_average AS
 SELECT
@@ -14,6 +15,7 @@ GROUP BY
 		WHEN measure_id LIKE 'MORT%' THEN 'mortality_average' END
 ;
 
+--Calculating population summary statistics about state level readmission and mortality ratios
 DROP TABLE IF EXISTS readmissions_states_scores_pop_stats;
 CREATE TABLE readmissions_states_scores_pop_stats AS
 SELECT
@@ -28,6 +30,7 @@ FROM readmissions_states_scores_average
 GROUP BY measure_group
 ;
 
+--Creating ratios for hosptials above/below general comparison for each state
 DROP TABLE IF EXISTS state_general_agg;
 CREATE TABLE state_general_agg AS
 SELECT
@@ -73,6 +76,7 @@ FROM hospital_general_ratings
 GROUP BY state
 ;
 
+--Calculating population summary statistics about state level general comparison ratios
 DROP TABLE IF EXISTS state_general_agg_pop_stats;
 CREATE TABLE state_general_agg_pop_stats AS
 SELECT
@@ -82,6 +86,7 @@ SELECT
 FROM state_general_agg
 ;
 
+--Joining all of the calculated state level aggregated ratios together
 DROP TABLE IF EXISTS best_states;
 CREATE TABLE best_states AS
 SELECT
@@ -100,6 +105,7 @@ LEFT OUTER JOIN readmissions_states_scores_average c
 	AND c.measure_group = 'mortality_average'
 ;
 
+--Joining to the population summary statistics
 DROP TABLE IF EXISTS top_states;
 CREATE TABLE top_states AS
 SELECT
@@ -133,16 +139,13 @@ JOIN state_general_agg_pop_stats d
 	ON 1 = 1
 ;
 
+--Filtering to the top 10 states
 DROP TABLE IF EXISTS top_10_states;
 CREATE TABLE top_10_states AS
 SELECT  
         *
 FROM top_states
 WHERE general_comparison_ratio > general_comparison_ratio_pop_mean
-AND readmission_better_ratio > readmission_better_ratio_pop_mean
-AND readmission_worse_ratio < readmission_worse_ratio_pop_mean
-AND mortality_better_ratio > mortality_better_ratio_pop_mean
-AND mortality_worse_ratio < mortality_worse_ratio_pop_mean
 ORDER BY readmission_better_ratio DESC
---LIMIT 10
+LIMIT 10
 ;
