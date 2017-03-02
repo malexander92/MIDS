@@ -3,7 +3,8 @@ DROP TABLE IF EXISTS readmissions_variance;
 CREATE TABLE readmissions_variance AS
 SELECT
 	measure_id,
-	VARIANCE(score) AS score_variance
+	VARIANCE(score) AS score_variance,
+	STDDEV_POP(score) AS score_std
 FROM readmissions_hospitals_scores
 GROUP BY measure_id
 ;
@@ -13,7 +14,8 @@ DROP TABLE IF EXISTS hai_variance;
 CREATE TABLE hai_variance AS
 SELECT
 	measure_id,
-	VARIANCE(score) AS score_variance
+	VARIANCE(score) AS score_variance,
+	STDDEV_POP(score) AS score_std
 FROM hai_hospitals_scores
 WHERE measure_id LIKE '%SIR'
 GROUP BY measure_id
