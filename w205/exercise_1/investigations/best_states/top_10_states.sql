@@ -6,10 +6,10 @@ SELECT
 		WHEN measure_id LIKE 'MORT%' THEN 'mortality_average' END
 		AS measure_group,
 	SUM(number_hospitals_better)/(SUM(number_hospitals_better)+SUM(number_hospitals_worse)+SUM(number_hospitals_same)+SUM(number_hospitals_too_few))  AS better_ratio,
-	SUM(number_hospitals_worse)/(SUM(number_hospitals_better)+SUM(number_hospitals_worse)+SUM(number_hospitals_same)+SUM(number_hospitals_too_few))  AS worse_ratio,
+	SUM(number_hospitals_worse)/(SUM(number_hospitals_better)+SUM(number_hospitals_worse)+SUM(number_hospitals_same)+SUM(number_hospitals_too_few))  AS worse_ratio
 FROM readmissions_state_scores
 GROUP BY
-	provider_id,
+	state,
 	CASE WHEN measure_id LIKE 'READM%' THEN 'readmission_average'
 		WHEN measure_id LIKE 'MORT%' THEN 'mortality_average' END
 ;
@@ -109,7 +109,7 @@ SELECT
  	a.mortality_worse_ratio,
  	c.pop_mean_worse_ratio AS mortality_worse_ratio_pop_mean,
  	c.pop_max_worse_ratio AS mortality_worse_ratio_pop_max,
- 	c.pop_min_worse_ratio AS mortality_worse_ratio_pop_min,
+ 	c.pop_min_worse_ratio AS mortality_worse_ratio_pop_min
 FROM best_states a
 JOIN (SELECT * FROM readmissions_states_scores_pop_stats WHERE measure_group = 'readmission_average') b
 	ON 1 = 1
