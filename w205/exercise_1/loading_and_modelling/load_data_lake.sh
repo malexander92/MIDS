@@ -45,3 +45,6 @@ hdfs dfs -put /home/w205/MIDS/w205/exercise_1/Hospital_Revised_Flatfiles/measure
 
 hdfs dfs -mkdir /user/w205/hospital_compare/survey_responses
 hdfs dfs -put /home/w205/MIDS/w205/exercise_1/Hospital_Revised_Flatfiles/survey_responses.csv /user/w205/hospital_compare/survey_responses
+
+# running hive_base_ddl sql script to create tables from hdfs raw data
+hive -f /home/w205/MIDS/w205/exercise_1/loading_and_modelling/hive_base_ddl.sql

@@ -97,7 +97,8 @@ SELECT
 		CASE WHEN effective_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
 		CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
 		CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
-		AS worse_general_comparison_count
+		AS worse_general_comparison_count,
+	hospital_rating
 FROM hospital_general_ratings
 ;
 
@@ -107,12 +108,16 @@ CREATE TABLE hospitals_general_agg_pop_stats AS
 SELECT
 	AVG(better_general_comparison_count) AS better_general_pop_mean,
 	AVG(worse_general_comparison_count) AS worse_general_pop_mean,
+	AVG(hospital_rating) AS hospital_rating_pop_mean,
 	MAX(better_general_comparison_count) AS better_general_pop_max,
 	MAX(worse_general_comparison_count) AS worse_general_pop_max,
+	MAX(hospital_rating) AS hospital_rating_pop_max,
 	MIN(better_general_comparison_count) AS better_general_pop_min,
 	MIN(worse_general_comparison_count) AS worse_general_pop_min,
+	MIN(hospital_rating) AS hospital_rating_pop_min,
 	STDDEV_POP(better_general_comparison_count) AS better_general_pop_std,
-	STDDEV_POP(worse_general_comparison_count) AS worse_general_pop_std
+	STDDEV_POP(worse_general_comparison_count) AS worse_general_pop_std,
+	STDDEV_POP(hospital_rating) AS hospital_rating_pop_std
 FROM hospitals_general_agg
 ;
 
@@ -134,7 +139,8 @@ SELECT
 	e.worse_hai_measure_count,
 	e.better_hai_measure_count,
 	f.better_general_comparison_count,
-	f.worse_general_comparison_count
+	f.worse_general_comparison_count,
+	f.hospital_rating
 FROM hospital_general_ratings a
 LEFT OUTER JOIN hospital_general_info b
 	ON a.provider_id = b.provider_id
@@ -181,7 +187,11 @@ SELECT
  	a.worse_general_comparison_count,
  	e.worse_general_pop_mean,
  	e.worse_general_pop_max,
- 	e.worse_general_pop_min
+ 	e.worse_general_pop_min,
+ 	a.hospital_rating,
+ 	e.hospital_rating_pop_mean,
+ 	e.hospital_rating_pop_max,
+ 	e.hospital_rating_pop_min
 FROM best_hospitals a
 JOIN (SELECT * FROM readmissions_hospitals_scores_pop_stats WHERE measure_group = 'readmission_average') b
 	ON 1 = 1
@@ -205,6 +215,6 @@ AND better_hai_measure_count > better_hai_pop_mean
 AND better_general_comparison_count > better_general_pop_mean
 AND worse_hai_measure_count < worse_hai_pop_mean
 AND worse_general_comparison_count < worse_general_pop_mean
-ORDER BY mortality_agg_score ASC
+ORDER BY hospital_rating DESC
 LIMIT 10
 ;

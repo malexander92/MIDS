@@ -35,43 +35,7 @@ DROP TABLE IF EXISTS state_general_agg;
 CREATE TABLE state_general_agg AS
 SELECT
 	state,
-	SUM(
-		CASE WHEN mortality_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN safety_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN readmission_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN pat_exp_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN effective_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN timeliness_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN efficient_imaging_comp LIKE 'Above%' THEN 1 ELSE 0 END
-		) AS better_general_comparison_count,
-	SUM(
-		CASE WHEN mortality_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN safety_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN readmission_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN pat_exp_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN effective_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
-		) AS worse_general_comparison_count,
-	SUM(
-		CASE WHEN mortality_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN safety_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN readmission_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN pat_exp_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN effective_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN timeliness_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-			CASE WHEN efficient_imaging_comp LIKE 'Above%' THEN 1 ELSE 0 END
-		)/
-		SUM(
-		CASE WHEN mortality_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN safety_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN readmission_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN pat_exp_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN effective_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-			CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
-		)
-		AS general_comparison_ratio
+	AVG(hospital_rating) AS avg_hospital_rating
 FROM hospital_general_ratings
 GROUP BY state
 ;
@@ -80,9 +44,9 @@ GROUP BY state
 DROP TABLE IF EXISTS state_general_agg_pop_stats;
 CREATE TABLE state_general_agg_pop_stats AS
 SELECT
-	AVG(general_comparison_ratio) AS general_comparison_ratio_pop_mean,
-	MAX(general_comparison_ratio) AS general_comparison_ratio_pop_max,
-	MIN(general_comparison_ratio) AS general_comparison_ratio_pop_min
+	AVG(hospital_rating) AS hospital_rating_pop_mean,
+	MAX(hospital_rating) AS hospital_rating_pop_max,
+	MIN(hospital_rating) AS hospital_rating_pop_min
 FROM state_general_agg
 ;
 
@@ -91,7 +55,7 @@ DROP TABLE IF EXISTS best_states;
 CREATE TABLE best_states AS
 SELECT
 	a.state,
-	a.general_comparison_ratio,
+	a.avg_hospital_rating,
 	b.better_ratio AS readmission_better_ratio,
 	b.worse_ratio AS readmission_worse_ratio,
 	c.better_ratio AS mortality_better_ratio,
@@ -110,10 +74,10 @@ DROP TABLE IF EXISTS top_states;
 CREATE TABLE top_states AS
 SELECT
 	a.state,
- 	a.general_comparison_ratio,
- 	d.general_comparison_ratio_pop_mean,
- 	d.general_comparison_ratio_pop_max,
- 	d.general_comparison_ratio_pop_min,
+ 	a.avg_hospital_rating,
+ 	d.avg_hospital_rating_pop_mean,
+ 	d.avg_hospital_rating_pop_max,
+ 	d.avg_hospital_rating_pop_min,
  	a.readmission_better_ratio,
  	b.pop_mean_better_ratio AS readmission_better_ratio_pop_mean,
  	b.pop_max_better_ratio AS readmission_better_ratio_pop_max,
@@ -145,7 +109,8 @@ CREATE TABLE top_10_states AS
 SELECT  
         *
 FROM top_states
-WHERE general_comparison_ratio > general_comparison_ratio_pop_mean
-ORDER BY mortality_better_ratio DESC
+WHERE readmission_better_ratio > readmission_better_ratio_pop_mean
+AND mortality_better_ratio > mortality_better_ratio_pop_mean
+ORDER BY avg_hospital_rating DESC
 LIMIT 10
 ;

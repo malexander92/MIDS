@@ -10,4 +10,3 @@ hive -f readmissions_state_scores.sql
 hive -f spending_hospitals_scores.sql
 hive -f spending_state_scores.sql
 hive -f survey_response_data.sql
-hive -f measure_map.sql

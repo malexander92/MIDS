@@ -4,6 +4,7 @@ CREATE TABLE readmissions_state_scores AS
 SELECT
 	state,
 	measure_id,
+	measure_name,
 	CAST((CASE WHEN number_hospitals_worse = 'Not Available'
 		THEN NULL ELSE number_hospitals_worse END) AS INT)
 		AS number_hospitals_worse,
