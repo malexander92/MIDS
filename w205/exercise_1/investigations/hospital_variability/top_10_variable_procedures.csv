@@ -1,0 +1,11 @@
+measure_name,score_variance,score_std,score_coefficient_variation
+Surgical Site Infection from abdominal hysterectomy (SSI: Hysterectomy),0.8794,0.9378,0.9428
+Surgical Site Infection from colon surgery (SSI: Colon),0.7002,0.8368,0.8932
+Catheter-associated urinary tract infections (CAUTI) in ICUs and select wards,0.6767,0.8226,0.8920
+Central line-associated bloodstream infections (CLABSI) in ICUs and select wards,0.7897,0.8886,0.8895
+Methicillin-resistant Staphylococcus Aureus (MRSA) Blood Laboratory-identified Events (Bloodstream infections),0.8181,0.9045,0.8780
+Clostridium difficile (C.diff.) Laboratory-identified Events (Intestinal infections),0.3521,0.5934,0.6118
+Death rate for CABG,0.8502,0.9221,0.3199
+Death rate for chronic obstructive pulmonary disease (COPD) patients,1.3434,1.1590,0.1519
+Rate of readmission after hip/knee replacement,0.3826,0.6185,0.1489
+Pneumonia (PN) 30-Day Mortality Rate,4.4656,2.1132,0.1325

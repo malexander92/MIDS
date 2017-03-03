@@ -5,8 +5,8 @@ SELECT
 	measure_id,
 	measure_name,
 	VARIANCE(score) AS score_variance,
-	STDDEV_POP(score) AS score_std,
-	STDDEV_POP(score)/AVG(score) AS score_coefficient_variation
+	STDDEV_SAMP(score) AS score_std,
+	STDDEV_SAMP(score)/AVG(score) AS score_coefficient_variation
 FROM readmissions_hospitals_scores
 GROUP BY measure_id, measure_name
 ;
@@ -18,8 +18,8 @@ SELECT
 	measure_id,
 	measure_name,
 	VARIANCE(score) AS score_variance,
-	STDDEV_POP(score) AS score_std,
-	STDDEV_POP(score)/AVG(score) AS score_coefficient_variation
+	STDDEV_SAMP(score) AS score_std,
+	STDDEV_SAMP(score)/AVG(score) AS score_coefficient_variation
 FROM hai_hospitals_scores
 WHERE measure_id LIKE '%SIR'
 GROUP BY measure_id, measure_name

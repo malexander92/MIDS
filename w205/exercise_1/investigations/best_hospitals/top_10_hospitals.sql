@@ -22,7 +22,7 @@ SELECT
 	AVG(average_score) AS pop_mean_score,
 	MIN(average_score) AS pop_min_score,
 	MAX(average_score) AS pop_max_score,
-	STDDEV_POP(average_score) AS pop_std_score
+	STDDEV_SAMP(average_score) AS pop_std_score
 FROM readmissions_hospitals_scores_average
 GROUP BY measure_group
 ;
@@ -72,8 +72,8 @@ SELECT
 	MAX(worse_hai_measure_count) AS worse_hai_pop_max,
 	MIN(better_hai_measure_count) AS better_hai_pop_min,
 	MIN(worse_hai_measure_count) AS worse_hai_pop_min,
-	STDDEV_POP(better_hai_measure_count) AS better_hai_pop_std,
-	STDDEV_POP(worse_hai_measure_count) AS worse_hai_pop_std
+	STDDEV_SAMP(better_hai_measure_count) AS better_hai_pop_std,
+	STDDEV_SAMP(worse_hai_measure_count) AS worse_hai_pop_std
 FROM hai_hospitals_scores_agg
 ;
 
@@ -115,9 +115,9 @@ SELECT
 	MIN(better_general_comparison_count) AS better_general_pop_min,
 	MIN(worse_general_comparison_count) AS worse_general_pop_min,
 	MIN(hospital_rating) AS hospital_rating_pop_min,
-	STDDEV_POP(better_general_comparison_count) AS better_general_pop_std,
-	STDDEV_POP(worse_general_comparison_count) AS worse_general_pop_std,
-	STDDEV_POP(hospital_rating) AS hospital_rating_pop_std
+	STDDEV_SAMP(better_general_comparison_count) AS better_general_pop_std,
+	STDDEV_SAMP(worse_general_comparison_count) AS worse_general_pop_std,
+	STDDEV_SAMP(hospital_rating) AS hospital_rating_pop_std
 FROM hospitals_general_agg
 ;
 
