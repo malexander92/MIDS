@@ -1,28 +1,3 @@
---Aggregating scores for hospital general comparison measures
-DROP TABLE IF EXISTS hospitals_general_agg;
-CREATE TABLE hospitals_general_agg AS
-SELECT
-	provider_id,
-	CASE WHEN mortality_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-		CASE WHEN safety_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-		CASE WHEN readmission_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-		CASE WHEN pat_exp_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-		CASE WHEN effective_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-		CASE WHEN timeliness_care_comp LIKE 'Above%' THEN 1 ELSE 0 END +
-		CASE WHEN efficient_imaging_comp LIKE 'Above%' THEN 1 ELSE 0 END
-		AS better_general_comparison_count,
-	CASE WHEN mortality_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-		CASE WHEN safety_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-		CASE WHEN readmission_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-		CASE WHEN pat_exp_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-		CASE WHEN effective_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-		CASE WHEN timeliness_care_comp LIKE 'Below%' THEN 1 ELSE 0 END +
-		CASE WHEN efficient_imaging_comp LIKE 'Below%' THEN 1 ELSE 0 END
-		AS worse_general_comparison_count,
-	hospital_rating
-FROM hospital_general_ratings
-;
-
 --Joining scores for hospital general comparison measures with survey ratings
 DROP TABLE IF EXISTS hospital_ratings_survey_joined;
 CREATE TABLE hospital_ratings_survey_joined AS
@@ -39,7 +14,7 @@ SELECT
 	b.overall_rating_of_hospital_performance_rate,
 	b.total_performance_score,
 	b.overall_rating_of_hospital_threshold_met
-FROM hospitals_general_agg a
+FROM hospital_general_ratings a
 JOIN survey_response_data b
 	ON a.provider_id = b.provider_id 
 ;

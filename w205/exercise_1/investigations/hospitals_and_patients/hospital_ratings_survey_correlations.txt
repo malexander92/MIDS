@@ -1,0 +1,17 @@
+hospital_rating_total_performance_score_corr	0.55
+hospital_rating_overall_rating_of_hospital_performance_rate_corr	0.59
+hospital_rating_communication_with_nurses_performance_rate_corr	0.55
+hospital_rating_responsiveness_of_hospital_staff_performance_rate_corr	0.52
+hospital_rating_pain_management_performance_rate_corr	0.51
+hospital_rating_overall_rating_of_hospital_threshold_met_corr	0.49
+hospital_rating_communication_about_medicines_performance_rate_corr	0.47
+hospital_rating_discharge_information_performance_rate_corr	0.45
+hospital_rating_cleanliness_and_quietness_performance_rate_corr	0.44
+hospital_rating_communication_with_doctors_performance_rate_corr	0.42
+
+
+In order to evaluate whether average scores for hospital quality are correlated with patient survey responeses I calculated the correlation between the overall general rating of each hospital with the performance rates and total performance scores from the survey response data.
+First I join the hospital rating from the general ratings table with the various metrics in the survey table on provider id.
+Then we can calculate the correlation between the ratings and the survey performance.
+Our results show that most survey measures are weakly positively correlated with hospital's overall rating.
+The survey measures with the highest correlation to hospital ratings was the total performance score and the lowest was communication with doctors.
